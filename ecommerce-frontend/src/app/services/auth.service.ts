@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { CookieService } from 'ngx-cookie-service';
+// import { CookieService } from 'ngx-cookie-service';
 import { BehaviorSubject, Observable, catchError, of, tap, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
@@ -12,13 +12,14 @@ import {
   User,
 } from '../models/user.module';
 
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  private cookieService = inject(CookieService);
+  // private cookieService = inject(CookieService);
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
@@ -145,27 +146,10 @@ export class AuthService {
       .subscribe({
         next: (user) => {
           this.currentUserSubject.next(user);
-          this.router.navigate(['/dashboard']);
+          setTimeout(() => this.router.navigate(['/dashboard']), 2000);
         },
         error: (error) => {
-          console.error('Error loading user after social auth:', error);
-          this.http
-            .get<User>(`${this.apiUrl}/me`, {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-              withCredentials: false,
-            })
-            .subscribe({
-              next: (user) => {
-                this.currentUserSubject.next(user);
-                this.router.navigate(['/dashboard']);
-              },
-              error: (err) => {
-                console.error('Failed with both approaches:', err);
-                this.router.navigate(['/login']);
-              },
-            });
+          setTimeout(() => this.router.navigate(['/login']), 2000);
         },
       });
   }

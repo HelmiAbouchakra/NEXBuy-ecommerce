@@ -1,1 +1,98 @@
-<p>register works!</p>
+<app-wrapper [width]="'400px'" [transparentBg]="false">
+  <!-- Header -->
+  <div class="auth-header">
+    <img
+      src="assets/left-arrow.svg"
+      alt="Back"
+      class="chevron-icon"
+      (click)="goBack()"
+    />
+    <h2 class="auth-title">Sign Up with Work Email</h2>
+  </div>
+
+  <p class="auth-subtitle">
+    Please enter your email and password to create an account.
+  </p>
+
+  <!-- Registration Form -->
+  <form (ngSubmit)="onSubmit()">
+    <label for="name" class="auth-label">Full Name</label>
+    <app-custom-input
+      type="text"
+      placeholder="Enter your full name"
+      [value]="name"
+      (valueChange)="name = $event"
+      [borderColor]="name ? '#2563EB' : '#ccc'"
+    ></app-custom-input>
+
+    <label for="email" class="auth-label">Email (personal or work)</label>
+    <app-custom-input
+      type="email"
+      placeholder="Enter your email"
+      [value]="email"
+      (valueChange)="email = $event"
+      [borderColor]="email ? '#2563EB' : '#ccc'"
+    ></app-custom-input>
+
+    <label for="password" class="auth-label">Password</label>
+    <app-custom-input
+      type="password"
+      placeholder="Enter your password"
+      [value]="password"
+      (valueChange)="password = $event"
+      [borderColor]="password ? '#2563EB' : '#ccc'"
+    ></app-custom-input>
+
+    <label for="password_confirmation" class="auth-label"
+      >Confirm Password</label
+    >
+    <app-custom-input
+      type="password"
+      placeholder="Confirm your password"
+      [value]="password_confirmation"
+      (valueChange)="password_confirmation = $event"
+      [borderColor]="password_confirmation ? '#2563EB' : '#ccc'"
+    ></app-custom-input>
+
+    <div class="image-upload">
+      <app-custom-button
+        [text]="selectedFile ? 'Change Profile Image' : 'Upload Profile Image'"
+        [backgroundColor]="'#2563EB'"
+        [textColor]="'#fff'"
+        (buttonClick)="fileInput.click()"
+      ></app-custom-button>
+      <input
+        #fileInput
+        type="file"
+        accept="image/*"
+        style="display: none"
+        (change)="onFileSelected($event)"
+      />
+      <p *ngIf="selectedFile" class="file-name">
+        Selected: {{ selectedFile.name }}
+      </p>
+    </div>
+
+    <app-custom-button
+      [text]="isLoading ? 'Creating Account...' : 'Create Account'"
+      [backgroundColor]="'#2563EB'"
+      [textColor]="'#fff'"
+      [disabled]="isLoading || !isFormValid()"
+      (buttonClick)="onSubmit()"
+    ></app-custom-button>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <div class="login-link">
+      <p>Already have an account?</p>
+      <app-custom-button
+        [text]="'Login'"
+        [backgroundColor]="'transparent'"
+        [textColor]="'#2563EB'"
+        (buttonClick)="router.navigate(['/login'])"
+      ></app-custom-button>
+    </div>
+  </form>
+</app-wrapper>

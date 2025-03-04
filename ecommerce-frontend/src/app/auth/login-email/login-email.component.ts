@@ -8,23 +8,20 @@ import { CustomInputComponent } from '../../components/custom-input/custom-input
 import { WrapperComponent } from '../../components/wrapper/wrapper.component';
 import { AuthService } from '../../services/auth.service';
 
-interface RegisterRequest {
-  name: string;
+interface LoginRequest {
   email: string;
   password: string;
-  password_confirmation: string;
-  image?: File;
 }
 
 interface ApiError {
-  error?: {
-    errors?: Record<string, string[]>;
-    message?: string;
-  };
+  status?: number;
+  error?: any;
+  message?: string;
+  statusText?: string;
 }
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-login-email',
   standalone: true,
   imports: [
     CommonModule,
@@ -33,15 +30,12 @@ interface ApiError {
     CustomInputComponent,
     CustomButtonComponent,
   ],
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  templateUrl: './login-email.component.html',
+  styleUrls: ['./login-email.component.scss'],
 })
-export class RegisterComponent {
-  name: string = '';
+export class LoginEmailComponent {
   email: string = '';
   password: string = '';
-  password_confirmation: string = '';
-  selectedFile: File | null = null;
   isLoading = false;
   errorMessage = '';
 
@@ -51,21 +45,8 @@ export class RegisterComponent {
     private toastr: ToastrService
   ) {}
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.selectedFile = input.files[0];
-    }
-  }
-
   isFormValid(): boolean {
-    return (
-      !!this.name &&
-      !!this.email &&
-      !!this.password &&
-      !!this.password_confirmation &&
-      this.password === this.password_confirmation
-    );
+    return !!this.email && !!this.password;
   }
 
   onSubmit(): void {
@@ -76,40 +57,39 @@ export class RegisterComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    const registrationData: RegisterRequest = {
-      name: this.name,
+    const loginData: LoginRequest = {
       email: this.email,
       password: this.password,
-      password_confirmation: this.password_confirmation,
-      image: this.selectedFile || undefined,
     };
 
-    this.authService.register(registrationData).subscribe({
+    this.authService.login(loginData).subscribe({
       next: () => {
         this.isLoading = false;
-        this.toastr.success('Account created successfully!', 'Success');
+        this.toastr.success('Welcome back!', 'Login Successful');
         this.router.navigate(['/dashboard']);
       },
       error: (error: ApiError) => {
         this.isLoading = false;
-        console.log('Registration Error:', error);
-
-        if (error.error?.errors) {
+        if (typeof error.error === 'string') {
+          this.errorMessage = error.error;
+        } else if (error.error?.message) {
+          this.errorMessage = error.error.message;
+        } else if (error.error?.error) {
+          this.errorMessage = error.error.error;
+        } else if (error.message) {
+          this.errorMessage = error.message;
+        } else if (error.error?.errors) {
           this.errorMessage = Object.entries(error.error.errors)
             .map(([key, value]) => `${key}: ${value}`)
             .join('\n');
-        } else if (error.error?.message) {
-          this.errorMessage = error.error.message;
-        } else if (typeof error.error === 'string') {
-          this.errorMessage = error.error;
         } else {
-          this.errorMessage = 'Registration failed. Please try again.';
+          this.errorMessage = JSON.stringify(error, null, 2);
         }
       },
     });
   }
 
-  goBack(): void {
+  navigateToLogin(): void {
     this.router.navigate(['/login']);
   }
 }

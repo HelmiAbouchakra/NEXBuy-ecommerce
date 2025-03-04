@@ -1,0 +1,36 @@
+.custom-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.custom-input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  background: transparent;
+  color: #000;
+  transition: border-color 0.3s ease;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 10px;
+  top: 13px;
+  background: none;
+  border: none;
+  color: #3B82F6;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  outline: none;
+
+  &:hover {
+    color: #2563EB;
+  }
+}

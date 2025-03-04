@@ -13,6 +13,13 @@ export const routes: Routes = [
       import('./auth/login/login.component').then((m) => m.LoginComponent),
   },
   {
+    path: 'login-email',
+    loadComponent: () =>
+      import('./auth/login-email/login-email.component').then(
+        (m) => m.LoginEmailComponent
+      ),
+  },
+  {
     path: 'register',
     loadComponent: () =>
       import('./auth/register/register.component').then(

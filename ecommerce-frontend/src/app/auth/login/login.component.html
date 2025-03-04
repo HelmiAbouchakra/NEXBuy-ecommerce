@@ -1,95 +1,46 @@
-<div class="login-container">
-  <div class="login-card">
-    <div class="back-link">
-      <a routerLink="/">&lt; Log in or sign up in seconds</a>
+<app-wrapper [width]="'400px'" [transparentBg]="false">
+  <div class="auth-header">
+    <div class="auth-title-container">
+      <img routerLink="/" src="assets/left-arrow.svg" alt="Back" class="chevron-icon" />
+      <h2 class="auth-title">Log in or sign up in seconds</h2>
     </div>
-    
-    <div class="login-message">
-      Use your email or another service to continue with NExBuy.
-    </div>
-    
-    <div class="login-options">
-      <button class="social-button google-button" (click)="loginWithGoogle()">
-        <img src="assets/search.png" alt="Google" />
-        Continue with Google
-      </button>
-      
-      <button class="social-button facebook-button" (click)="loginWithFacebook()">
-        <img src="assets/facebook-icon.png" alt="Facebook" />
-        Continue with Facebook
-      </button>
-      
-      <button class="email-button" (click)="showEmailForm = true">
-        <img src="assets/message.svg" alt="Email" />
-        Continue with email
-      </button>
-    </div>
-    
-    <div *ngIf="showEmailForm" class="email-form">
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email" required />
-          <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-            Email is required
-          </mat-error>
-          <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-            Please enter a valid email
-          </mat-error>
-        </mat-form-field>
+    <p class="auth-subtitle">
+      Use your email or another service to <br />continue with NExBuy.
+    </p>
+  </div>
 
-        <mat-form-field appearance="outline" class="w-full">
-          <mat-label>Password</mat-label>
-          <input
-            matInput
-            formControlName="password"
-            [type]="hidePassword ? 'password' : 'text'"
-            required
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            (click)="hidePassword = !hidePassword"
-            type="button"
-          >
-            <mat-icon>{{
-              hidePassword ? 'visibility_off' : 'visibility'
-            }}</mat-icon>
-          </button>
-          <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-            Password is required
-          </mat-error>
-        </mat-form-field>
+  <!-- Social Login Buttons -->
+  <div class="auth-buttons">
+    <button class="auth-btn google-btn" (click)="loginWithGoogle()">
+      <img src="assets/search.png" alt="Google" />
+      Continue with Google
+    </button>
 
-        <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
-        </div>
+    <button class="auth-btn facebook-btn" (click)="loginWithFacebook()">
+      <img src="assets/facebook-icon.png" alt="Facebook" />
+      Continue with Facebook
+    </button>
 
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="loginForm.invalid || isLoading"
-          class="submit-button"
-        >
-          {{ isLoading ? 'Logging in...' : 'Log in' }}
-        </button>
-      </form>
-    </div>
-    
-    <div *ngIf="successMessage" class="success-message">
-      {{ successMessage }}
-    </div>
-    
-    <div class="terms-policy">
-      By continuing, you agree to our 
-      <a href="/terms" class="terms-link">Terms of Use</a> and 
-      <a href="/privacy" class="privacy-link">Privacy Policy</a>.
-    </div>
-    
-    <div class="work-email-option">
-      <img src="assets/icons/business.svg" alt="Business" />
-      <a routerLink="/register" class="work-email-link">Sign up with your work email</a>
+    <button class="auth-btn email-btn" (click)="continueWithEmail()">
+      <img src="assets/message.svg" alt="Email" />
+      Continue with email
+    </button>
+  </div>
+
+  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+
+  <div class="auth-footer-container">
+    <p class="auth-terms">
+      By continuing, you agree to our <a href="/terms">Terms of Use</a> and
+      <a href="/privacy">Privacy Policy</a>.
+    </p>
+
+    <div class="auth-footer">
+      <a routerLink="/register">
+        <img src="assets/work-email.svg" alt="Work Email" />
+        Sign up with your work email
+      </a>
     </div>
   </div>
-</div>
+</app-wrapper>
+

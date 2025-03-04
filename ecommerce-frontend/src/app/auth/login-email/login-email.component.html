@@ -1,0 +1,58 @@
+<app-wrapper [width]="'400px'" [transparentBg]="false">
+  <!-- Header -->
+  <div class="auth-header">
+    <img
+      src="assets/left-arrow.svg"
+      alt="Back"
+      class="chevron-icon"
+      (click)="navigateToLogin()"
+    />
+    <h2 class="auth-title">Continue with email</h2>
+  </div>
+
+  <!-- Subtitle -->
+  <p class="auth-subtitle">Enter your email and password to login</p>
+
+  <!-- Login Form -->
+  <form (ngSubmit)="onSubmit()">
+    <label for="email" class="auth-label">Email</label>
+    <app-custom-input
+      type="email"
+      placeholder="Enter your email"
+      [value]="email"
+      (valueChange)="email = $event"
+      [borderColor]="email ? '#2563EB' : '#ccc'"
+    ></app-custom-input>
+
+    <label for="password" class="auth-label">Password</label>
+    <app-custom-input
+      type="password"
+      placeholder="Enter your password"
+      [value]="password"
+      (valueChange)="password = $event"
+      [borderColor]="password ? '#2563EB' : '#ccc'"
+    ></app-custom-input>
+
+    <app-custom-button
+      [text]="isLoading ? 'Logging in...' : 'Login'"
+      [backgroundColor]="'#2563EB'"
+      [textColor]="'#fff'"
+      [disabled]="isLoading || !isFormValid()"
+      (buttonClick)="onSubmit()"
+    ></app-custom-button>
+    
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <div class="auth-links">
+      <p>Don't have an account?</p>
+      <app-custom-button
+        [text]="'Create Account'"
+        [backgroundColor]="'transparent'"
+        [textColor]="'#2563EB'"
+        (buttonClick)="router.navigate(['/register'])"
+      ></app-custom-button>
+    </div>
+  </form>
+</app-wrapper>
