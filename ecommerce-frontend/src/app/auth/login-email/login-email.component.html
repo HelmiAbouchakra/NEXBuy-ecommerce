@@ -1,4 +1,4 @@
-<app-wrapper [width]="'400px'" [transparentBg]="true" [center]="true">
+<app-wrapper [width]="'400px'" [transparentBg]="false" [center]="true">
   <!-- Header -->
   <div class="auth-header">
     <img
@@ -11,32 +11,29 @@
   </div>
 
   <!-- Subtitle -->
-  <p class="auth-subtitle">Enter your email and password to login</p>
+  <p class="auth-subtitle">  We’ll check if you have an account, and help create one if you don’t.</p>
 
   <!-- Login Form -->
   <form (ngSubmit)="onSubmit()">
-    <label for="email" class="auth-label">Email</label>
     <app-custom-input
       type="email"
       placeholder="Enter your email"
       [value]="email"
       (valueChange)="email = $event"
-      [borderColor]="email ? '#2563EB' : '#ccc'"
     ></app-custom-input>
 
-    <label for="password" class="auth-label">Password</label>
     <app-custom-input
       type="password"
       placeholder="Enter your password"
       [value]="password"
       (valueChange)="password = $event"
-      [borderColor]="password ? '#2563EB' : '#ccc'"
     ></app-custom-input>
 
     <app-custom-button
       [text]="isLoading ? 'Logging in...' : 'Login'"
-      [backgroundColor]="'#2563EB'"
+      [backgroundColor]="'#C36B4E'"
       [textColor]="'#fff'"
+      [hoverColor]="email && password ? '#D97757' : '#C36B4E'"
       [disabled]="isLoading || !isFormValid()"
       (buttonClick)="onSubmit()"
     ></app-custom-button>
@@ -50,7 +47,7 @@
       <app-custom-button
         [text]="'Create Account'"
         [backgroundColor]="'transparent'"
-        [textColor]="'#2563EB'"
+        [textColor]="'#D97757'"
         (buttonClick)="router.navigate(['/register'])"
       ></app-custom-button>
     </div>

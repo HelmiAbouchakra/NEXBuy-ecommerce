@@ -1,11 +1,8 @@
 @use "sass:color";
 
 /* Variables */
-$primary-color: #2563eb;
-$input-border: #ccc;
-$text-color: #000;
-$background-color: #1e1e1e;
-$border-radius: 8px;
+$text-color: #fff;
+$error-message: #ef4444;
 
 /* Header */
 .auth-header {
@@ -41,17 +38,10 @@ $border-radius: 8px;
   margin-bottom: 1.5rem;
 }
 
-/* Label */
-.auth-label {
-  color: color.adjust($text-color, $lightness: 20%);
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  display: block;
-}
 
 /* Error Message */
 .error-message {
-  color: #ef4444;
+  color: $error-message;
   font-size: 0.875rem;
   text-align: center;
   margin: 0.5rem 0;

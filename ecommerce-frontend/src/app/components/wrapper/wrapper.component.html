@@ -8,6 +8,11 @@
     [ngStyle]="{ width: width, height: height }"
     [ngClass]="{ 'transparent-bg': transparentBg }"
   >
+    <div class="brand-elements" *ngIf="showBrandElements">
+      <div class="brand-logo-watermark" *ngIf="showLogo">
+        <img src="assets/app-logo-simple.svg" alt="NEXBuy" />
+      </div>
+    </div>
     <ng-content></ng-content>
   </div>
 </div>

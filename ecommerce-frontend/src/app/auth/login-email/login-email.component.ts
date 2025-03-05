@@ -39,8 +39,9 @@ export class LoginEmailComponent implements OnDestroy {
   password: string = '';
   isLoading = false;
   errorMessage = '';
+  emailError = ''; // Field-specific error for email
+  passwordError = ''; // Field-specific error for password
 
-  
   loginSuccess = false;
   successMessage = '';
   redirectCountdown = 3;
@@ -63,7 +64,29 @@ export class LoginEmailComponent implements OnDestroy {
   }
 
   onSubmit(): void {
-    if (!this.isFormValid()) {
+    // Clear all errors first
+    this.errorMessage = '';
+    this.emailError = '';
+    this.passwordError = '';
+
+    // Validate fields
+    if (!this.email) {
+      this.emailError = 'Email is required';
+      return;
+    }
+    
+    if (!this.validateEmail(this.email)) {
+      this.emailError = 'Please enter a valid email address';
+      return;
+    }
+    
+    if (!this.password) {
+      this.passwordError = 'Password is required';
+      return;
+    }
+    
+    if (this.password.length < 6) {
+      this.passwordError = 'Password must be at least 6 characters';
       return;
     }
 
@@ -125,5 +148,10 @@ export class LoginEmailComponent implements OnDestroy {
 
   navigateToLogin(): void {
     this.router.navigate(['/login']);
+  }
+
+  private validateEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
   }
 }

@@ -1,14 +1,14 @@
 @use "sass:color";
 
 /* Variables */
-$primary-color: #4a90e2;
+$primary-color: #D97757;
 $google-color: #db4437;
 $facebook-color: #3b5998;
 $email-color: #6c757d;
 $background-color: rgba(0, 0, 0, 0.6);
 $modal-background: #1e1e1e;
-$text-color: #000;
-$border-radius: 8px;
+$text-color: #fff;
+$border-radius: 10px;
 
 .auth-header {
   .auth-title-container {
@@ -27,8 +27,7 @@ $border-radius: 8px;
       color: $text-color;
       font-size: 1.9rem;
       font-weight: 600;
-      margin-left: 1rem;
-      margin-bottom: 1rem;
+      margin: 0 0 0 1rem;
     }
   }
 
@@ -60,7 +59,7 @@ $border-radius: 8px;
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
     width: 100%;
 
     img {
@@ -74,13 +73,32 @@ $border-radius: 8px;
       background: $email-color;
     }
 
-    &.google-btn,
-    &.facebook-btn,
+    &.google-btn {
+      border-color: $google-color;
+
+      &:hover {
+        background: $email-color;
+        color: white;
+        border-color: $email-color;
+      }
+    }
+
+    &.facebook-btn {
+      border-color: $facebook-color;
+
+      &:hover {
+        background: $email-color;
+        color: white;
+        border-color: $email-color;
+      }
+    }
+
     &.email-btn {
       border-color: $email-color;
 
       &:hover {
         background: $email-color;
+        color: white;
       }
     }
   }
