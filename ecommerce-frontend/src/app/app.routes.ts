@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { SocialCallbackGuard } from './guards/social-callback.guard';
 
 export const routes: Routes = [
   {
@@ -11,6 +12,13 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () =>
       import('./auth/login/login.component').then((m) => m.LoginComponent),
+  },
+  {
+    path: 'login-email',
+    loadComponent: () =>
+      import('./auth/login-email/login-email.component').then(
+        (m) => m.LoginEmailComponent
+      ),
   },
   {
     path: 'register',
@@ -25,6 +33,7 @@ export const routes: Routes = [
       import('./auth/social-callback/social-callback.component').then(
         (m) => m.SocialCallbackComponent
       ),
+    canActivate: [SocialCallbackGuard],
   },
   {
     path: 'dashboard',

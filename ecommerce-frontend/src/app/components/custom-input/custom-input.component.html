@@ -1,0 +1,19 @@
+<div class="custom-input-wrapper">
+  <input
+    [type]="inputType"
+    [placeholder]="placeholder"
+    [value]="value"
+    (input)="onInput($event)"
+    [ngStyle]="{ 'border-color': borderColor }"
+    class="custom-input"
+  />
+
+  <button
+    *ngIf="type === 'password'"
+    type="button"
+    class="toggle-password-btn"
+    (click)="togglePasswordVisibility()"
+  >
+    {{ showPassword ? "Hide" : "Show" }}
+  </button>
+</div>

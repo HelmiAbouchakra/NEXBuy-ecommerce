@@ -33,32 +33,20 @@ $border-radius: 8px;
   }
 }
 
+/* Subtitle */
+.auth-subtitle {
+  color: color.adjust($text-color, $lightness: 20%);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+}
+
 /* Label */
 .auth-label {
   color: color.adjust($text-color, $lightness: 20%);
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
   display: block;
-}
-
-/* Image Upload */
-.image-upload {
-  margin: 0 0 1rem 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-
-  .file-name {
-    font-size: 0.875rem;
-    color: color.adjust($text-color, $lightness: 30%);
-    margin: 0;
-    text-align: center;
-  }
-
-  app-custom-button {
-    width: 100%;
-  }
 }
 
 /* Error Message */
@@ -69,8 +57,8 @@ $border-radius: 8px;
   margin: 0.5rem 0;
 }
 
-/* Login Link */
-.login-link {
+/* Auth Links */
+.auth-links {
   text-align: center;
 
   p {

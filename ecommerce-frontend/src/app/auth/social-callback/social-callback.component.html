@@ -1,4 +1,65 @@
-<div class="callback-container">
-  <mat-spinner></mat-spinner>
-  <p>{{ message }}</p>
-</div>
+<app-wrapper [width]="'400px'" [transparentBg]="true" [center]="true">
+  <div class="auth-container">
+    <!-- Brand section -->
+    <div class="brand-section">
+      <div class="logo-container">
+        <img
+          src="assets/app-logo-simple.svg"
+          alt="NEXBuy Logo"
+          class="brand-logo"
+        />
+      </div>
+    </div>
+
+    <!-- Status card -->
+    <div class="status-card" [ngClass]="{ 'error-card': errorOccurred }">
+      <div class="card-header">
+        <h2 class="auth-title">
+          {{
+            errorOccurred
+              ? "Authentication Failed"
+              : "Authentication in Progress"
+          }}
+        </h2>
+      </div>
+
+      <div class="card-content">
+        <div class="status-indicator">
+          <div
+            [ngClass]="{
+              'custom-spinner': !errorOccurred,
+              'error-icon': errorOccurred
+            }"
+          ></div>
+          <p
+            class="status-message"
+            [ngClass]="{ 'error-message': errorOccurred }"
+          >
+            {{ message }}
+          </p>
+        </div>
+
+        <div *ngIf="redirectCountdown < 3" class="redirect-container">
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [style.width.%]="(redirectCountdown / 3) * 100"
+            ></div>
+          </div>
+          <p class="redirect-message">
+            Redirecting in {{ redirectCountdown }} seconds...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="auth-footer">
+      <p>Secure authentication powered by NEXBuy</p>
+      <div class="security-badges">
+        <span class="badge"> <i class="security-icon">🔒</i> Secure </span>
+        <span class="badge"> <i class="security-icon">✓</i> Trusted </span>
+      </div>
+    </div>
+  </div>
+</app-wrapper>

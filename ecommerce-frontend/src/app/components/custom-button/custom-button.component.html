@@ -1,0 +1,11 @@
+<button
+  [ngStyle]="{
+    'background-color': backgroundColor,
+    color: textColor
+  }"
+  [class.disabled]="disabled"
+  (click)="onClick()"
+  class="custom-button"
+>
+  {{ text }}
+</button>

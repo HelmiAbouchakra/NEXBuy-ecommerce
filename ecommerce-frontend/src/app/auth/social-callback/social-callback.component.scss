@@ -1,14 +1,231 @@
-.callback-container {
+@use "sass:color";
+
+/* Variables */
+$primary-color: #2563eb;
+$primary-dark: darken($primary-color, 10%);
+$primary-light: lighten($primary-color, 30%);
+$error-color: #ef4444;
+$success-color: #10b981;
+$text-color: #1f2937;
+$light-text: #6b7280;
+$bg-color: #ffffff;
+$card-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+$border-radius: 12px;
+$transition-speed: 0.3s;
+
+/* Container styling */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 1.5rem 0;
+}
+
+/* Brand section styling */
+.brand-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  .logo-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    // background-color: $primary-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // margin-bottom: 0.5rem;
+    // box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+  }
+
+  .brand-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+}
+
+/* Card styling */
+.status-card {
+  width: 100%;
+  background-color: $bg-color;
+  border-radius: $border-radius;
+  box-shadow: $card-shadow;
+  overflow: hidden;
+  transition: all $transition-speed ease;
+  border: 1px solid #f3f4f6;
+  margin-bottom: 1.5rem;
+
+  &.error-card {
+    border-color: rgba($error-color, 0.3);
+  }
+
+  .card-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f3f4f6;
+    background-color: #f9fafb;
+
+    .auth-title {
+      color: $text-color;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+      text-align: center;
+    }
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+}
+
+/* Status indicator */
+.status-indicator {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  padding: 20px;
+  padding: 1rem 0;
+
+  .status-message {
+    margin-top: 1.25rem;
+    font-size: 1rem;
+    color: $text-color;
+    text-align: center;
+    line-height: 1.5;
+
+    &.error-message {
+      color: $error-color;
+    }
+  }
 }
 
-p {
-  margin-top: 20px;
+/* Custom spinner */
+.custom-spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba($primary-color, 0.1);
+  border-radius: 50%;
+  border-top-color: $primary-color;
+  animation: spin 1s ease-in-out infinite;
+  box-shadow: 0 0 15px rgba($primary-color, 0.1);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error icon */
+.error-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba($error-color, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 0 15px rgba($error-color, 0.1);
+
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 28px;
+    background-color: $error-color;
+    border-radius: 2px;
+  }
+
+  &:before {
+    transform: rotate(45deg);
+  }
+
+  &:after {
+    transform: rotate(-45deg);
+  }
+}
+
+/* Redirect container */
+.redirect-container {
+  margin-top: 1.5rem;
+  width: 100%;
+
+  .progress-bar {
+    height: 6px;
+    background-color: #f3f4f6;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.75rem;
+
+    .progress-fill {
+      height: 100%;
+      background-color: $primary-color;
+      transition: width 1s linear;
+    }
+  }
+
+  .redirect-message {
+    text-align: center;
+    font-size: 0.875rem;
+    color: $light-text;
+    margin: 0;
+  }
+}
+
+/* Footer */
+.auth-footer {
+  width: 100%;
   text-align: center;
-  max-width: 400px;
+  padding-top: 1rem;
+
+  p {
+    color: $light-text;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .security-badges {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    .badge {
+      display: flex;
+      align-items: center;
+      font-size: 0.75rem;
+      color: $light-text;
+      background-color: #f9fafb;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid #f3f4f6;
+
+      .security-icon {
+        margin-right: 0.25rem;
+        font-style: normal;
+      }
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 1rem 0;
+  }
+
+  .status-card {
+    .card-header {
+      padding: 1rem;
+    }
+
+    .card-content {
+      padding: 1.25rem 1rem;
+    }
+  }
 }

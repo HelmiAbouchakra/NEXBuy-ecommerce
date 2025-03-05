@@ -12,6 +12,7 @@ import {
   withComponentInputBinding,
   withViewTransitions,
 } from '@angular/router';
+import { ToastrModule } from 'ngx-toastr';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
@@ -26,5 +27,12 @@ export const appConfig: ApplicationConfig = {
       useClass: AuthInterceptor,
       multi: true,
     },
+    importProvidersFrom(
+      ToastrModule.forRoot({
+        timeOut: 3000,
+        positionClass: 'toast-top-right',
+        preventDuplicates: true,
+      })
+    ),
   ],
 };
