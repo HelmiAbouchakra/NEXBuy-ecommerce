@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
+import { SocialCallbackGuard } from './guards/social-callback.guard';
 
 export const routes: Routes = [
   {
@@ -32,6 +33,7 @@ export const routes: Routes = [
       import('./auth/social-callback/social-callback.component').then(
         (m) => m.SocialCallbackComponent
       ),
+    canActivate: [SocialCallbackGuard],
   },
   {
     path: 'dashboard',

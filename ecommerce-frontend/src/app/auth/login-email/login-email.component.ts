@@ -40,7 +40,7 @@ export class LoginEmailComponent implements OnDestroy {
   isLoading = false;
   errorMessage = '';
 
-  // Success state properties
+  
   loginSuccess = false;
   successMessage = '';
   redirectCountdown = 3;

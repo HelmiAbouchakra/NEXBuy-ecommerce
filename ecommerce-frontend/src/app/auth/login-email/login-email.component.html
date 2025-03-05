@@ -1,4 +1,4 @@
-<app-wrapper [width]="'400px'" [transparentBg]="false">
+<app-wrapper [width]="'400px'" [transparentBg]="true" [center]="true">
   <!-- Header -->
   <div class="auth-header">
     <img
@@ -40,7 +40,7 @@
       [disabled]="isLoading || !isFormValid()"
       (buttonClick)="onSubmit()"
     ></app-custom-button>
-    
+
     <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}
     </div>
