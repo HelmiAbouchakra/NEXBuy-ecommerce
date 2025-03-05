@@ -2,7 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 // import { CookieService } from 'ngx-cookie-service';
-import { BehaviorSubject, Observable, catchError, of, tap, throwError } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
+import {
+  BehaviorSubject,
+  Observable,
+  catchError,
+  of,
+  tap,
+  throwError,
+} from 'rxjs';
 import { environment } from '../../environments/environment';
 import {
   AuthResponse,
@@ -12,7 +20,6 @@ import {
   User,
 } from '../models/user.module';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -20,6 +27,7 @@ export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
   // private cookieService = inject(CookieService);
+  private toastr = inject(ToastrService);
 
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
@@ -53,10 +61,9 @@ export class AuthService {
       formData.append('image', userData.image);
     }
 
-    return this.http
-      .post<AuthResponse>(`${this.apiUrl}/register`, formData, {
-        withCredentials: true,
-      });
+    return this.http.post<AuthResponse>(`${this.apiUrl}/register`, formData, {
+      withCredentials: true,
+    });
   }
 
   logout(): Observable<any> {
@@ -119,7 +126,7 @@ export class AuthService {
         tap((user) => {
           this.currentUserSubject.next(user);
         }),
-        catchError(error => {
+        catchError((error) => {
           return of(null);
         })
       );
@@ -136,6 +143,7 @@ export class AuthService {
   private authToken: string | null = null;
   handleSocialCallback(token: string): void {
     this.authToken = token;
+    
     this.http
       .get<User>(`${this.apiUrl}/me`, {
         headers: {
@@ -146,10 +154,17 @@ export class AuthService {
       .subscribe({
         next: (user) => {
           this.currentUserSubject.next(user);
-          setTimeout(() => this.router.navigate(['/dashboard']), 2000);
+          // Navigate directly to dashboard on success
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 2000);
         },
-        error: (error) => {
-          setTimeout(() => this.router.navigate(['/login']), 2000);
+        error: () => {
+          // Clear token and redirect on error
+          this.authToken = null;
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000);
         },
       });
   }
@@ -161,6 +176,4 @@ export class AuthService {
   get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
-
- 
 }
