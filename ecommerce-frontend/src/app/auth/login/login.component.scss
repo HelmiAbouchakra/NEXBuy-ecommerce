@@ -1,14 +1,14 @@
 @use "sass:color";
 
 /* Variables */
-$primary-color: #4a90e2;
+$primary-color: #D97757;
 $google-color: #db4437;
 $facebook-color: #3b5998;
 $email-color: #6c757d;
 $background-color: rgba(0, 0, 0, 0.6);
 $modal-background: #1e1e1e;
-$text-color: #000;
-$border-radius: 8px;
+$text-color: #fff;
+$border-radius: 10px;
 
 .auth-header {
   .auth-title-container {
@@ -27,8 +27,7 @@ $border-radius: 8px;
       color: $text-color;
       font-size: 1.9rem;
       font-weight: 600;
-      margin-left: 1rem;
-      margin-bottom: 1rem;
+      margin: 0 0 0 1rem;
     }
   }
 
@@ -37,6 +36,7 @@ $border-radius: 8px;
     color: color.adjust($text-color, $lightness: 20%);
     font-size: 1rem;
     font-weight: 500;
+    margin: 1rem 0 1rem 0;
   }
 }
 
@@ -60,7 +60,7 @@ $border-radius: 8px;
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: all 0.3s ease;
     width: 100%;
 
     img {
@@ -74,13 +74,32 @@ $border-radius: 8px;
       background: $email-color;
     }
 
-    &.google-btn,
-    &.facebook-btn,
+    &.google-btn {
+      border-color: $google-color;
+
+      &:hover {
+        background: $email-color;
+        color: white;
+        border-color: $email-color;
+      }
+    }
+
+    &.facebook-btn {
+      border-color: $facebook-color;
+
+      &:hover {
+        background: $email-color;
+        color: white;
+        border-color: $email-color;
+      }
+    }
+
     &.email-btn {
       border-color: $email-color;
 
       &:hover {
         background: $email-color;
+        color: white;
       }
     }
   }
@@ -135,17 +154,17 @@ $border-radius: 8px;
   }
 }
 
-.error-message {
-  color: red;
-  font-size: 0.9rem;
-  margin-top: 10px;
-  text-align: center;
-}
+// .error-message {
+//   color: red;
+//   font-size: 0.9rem;
+//   margin-top: 10px;
+//   text-align: center;
+// }
 
 /* Responsive Design */
-@media (max-width: 480px) {
-  .auth-modal {
-    width: 90%;
-    padding: 1.5rem;
-  }
-}
+// @media (max-width: 480px) {
+//   .auth-modal {
+//     width: 90%;
+//     padding: 4rem;
+//   }
+// }

@@ -43,7 +43,6 @@ export class RegisterComponent {
   password_confirmation: string = '';
   selectedFile: File | null = null;
   isLoading = false;
-  errorMessage = '';
 
   constructor(
     public router: Router,
@@ -58,6 +57,8 @@ export class RegisterComponent {
     }
   }
 
+  // Basic frontend validation for form completion
+  // Used for enabling/disabling the submit button
   isFormValid(): boolean {
     return (
       !!this.name &&
@@ -69,12 +70,14 @@ export class RegisterComponent {
   }
 
   onSubmit(): void {
-    if (!this.isFormValid()) {
+    // Minimal frontend validation - just check for password match
+    // before sending to the server
+    if (this.password !== this.password_confirmation) {
+      this.toastr.error('Passwords do not match', 'Validation Error');
       return;
     }
 
     this.isLoading = true;
-    this.errorMessage = '';
 
     const registrationData: RegisterRequest = {
       name: this.name,
@@ -92,24 +95,31 @@ export class RegisterComponent {
       },
       error: (error: ApiError) => {
         this.isLoading = false;
-        console.log('Registration Error:', error);
-
+        
         if (error.error?.errors) {
-          this.errorMessage = Object.entries(error.error.errors)
-            .map(([key, value]) => `${key}: ${value}`)
-            .join('\n');
+          // Show individual toastr for each validation error from backend
+          Object.entries(error.error.errors).forEach(([field, messages]) => {
+            if (Array.isArray(messages) && messages.length > 0) {
+              // Laravel typically returns arrays of error messages per field
+              messages.forEach(message => {
+                this.toastr.error(`${field}: ${message}`, 'Validation Error');
+              });
+            } else {
+              this.toastr.error(`${field}: ${messages}`, 'Validation Error');
+            }
+          });
         } else if (error.error?.message) {
-          this.errorMessage = error.error.message;
+          this.toastr.error(error.error.message, 'Registration Failed');
         } else if (typeof error.error === 'string') {
-          this.errorMessage = error.error;
+          this.toastr.error(error.error, 'Registration Failed');
         } else {
-          this.errorMessage = 'Registration failed. Please try again.';
+          this.toastr.error('Registration failed. Please try again.', 'Error');
         }
       },
     });
   }
 
-  goBack(): void {
+  navigateToLogin(): void {
     this.router.navigate(['/login']);
   }
 }

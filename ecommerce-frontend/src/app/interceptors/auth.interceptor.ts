@@ -25,7 +25,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(authReq).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error.status === 0) {
-          console.error('CORS or network error occurred:', error);
+          // console.error('CORS or network error occurred:', error);
         } else if (error.status === 401) {
           // this.router.navigate(['/login']);
           const url = this.router.url;

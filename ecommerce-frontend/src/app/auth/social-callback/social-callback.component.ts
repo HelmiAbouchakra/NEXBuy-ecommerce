@@ -6,6 +6,20 @@ import { take } from 'rxjs/operators';
 import { WrapperComponent } from '../../components/wrapper/wrapper.component';
 import { AuthService } from '../../services/auth.service';
 
+// Interface for auth callback query parameters
+export interface AuthCallbackParams {
+  token?: string;
+  error?: string;
+  error_type?: string;
+}
+
+// Interface for component state
+export interface CallbackState {
+  message: string;
+  errorOccurred: boolean;
+  redirectCountdown: number;
+}
+
 @Component({
   selector: 'app-social-callback',
   standalone: true,
@@ -19,9 +33,16 @@ export class SocialCallbackComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
 
   // Component state
-  message = 'Processing your authentication...';
-  errorOccurred = false;
-  redirectCountdown = 3;
+  state: CallbackState = {
+    message: 'Processing your authentication...',
+    errorOccurred: false,
+    redirectCountdown: 3
+  };
+
+  // Getters for template usage
+  get message(): string { return this.state.message; }
+  get errorOccurred(): boolean { return this.state.errorOccurred; }
+  get redirectCountdown(): number { return this.state.redirectCountdown; }
 
   // Subscriptions to manage
   private countdownSubscription?: Subscription;
@@ -39,10 +60,10 @@ export class SocialCallbackComponent implements OnInit, OnDestroy {
 
   private handleAuthCallback(): void {
     this.queryParamsSubscription = this.route.queryParams.subscribe(
-      (params) => {
-        const token = params['token'];
-        const error = params['error'];
-        const errorType = params['error_type'] || '';
+      (params: AuthCallbackParams) => {
+        const token = params.token;
+        const error = params.error;
+        const errorType = params.error_type || '';
 
         if (error) {
           this.handleError(errorType);
@@ -59,35 +80,35 @@ export class SocialCallbackComponent implements OnInit, OnDestroy {
   }
 
   private handleError(errorType: string): void {
-    this.errorOccurred = true;
+    this.state.errorOccurred = true;
 
     // Set appropriate error message based on error type
     switch (errorType) {
       case 'expired':
-        this.message = 'Your authentication session has expired';
+        this.state.message = 'Your authentication session has expired';
         break;
       case 'invalid':
-        this.message = 'Invalid authentication credentials';
+        this.state.message = 'Invalid authentication credentials';
         break;
       case 'access_denied':
-        this.message = 'You denied access to your account';
+        this.state.message = 'You denied access to your account';
         break;
       default:
-        this.message = 'Authentication failed';
+        this.state.message = 'Authentication failed';
     }
 
     this.startRedirectCountdown();
   }
 
   private handleSuccessfulAuth(token: string): void {
-    this.message = 'Authentication successful! Retrieving your profile...';
+    this.state.message = 'Authentication successful! Retrieving your profile...';
     this.authService.handleSocialCallback(token);
     // No need to handle redirects here as the auth service will do it
   }
 
   private handleMissingToken(): void {
-    this.errorOccurred = true;
-    this.message =
+    this.state.errorOccurred = true;
+    this.state.message =
       'No authentication token found. Redirecting back to login...';
     this.startRedirectCountdown();
   }
@@ -100,7 +121,7 @@ export class SocialCallbackComponent implements OnInit, OnDestroy {
       .pipe(take(3))
       .subscribe({
         next: () => {
-          this.redirectCountdown--;
+          this.state.redirectCountdown--;
         },
         complete: () => {
           this.router.navigate(['/login']);

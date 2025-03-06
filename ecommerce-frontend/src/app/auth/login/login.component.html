@@ -1,4 +1,4 @@
-<app-wrapper [width]="'400px'" [transparentBg]="true">
+<app-wrapper [width]="'400px'" [transparentBg]="false">
   <div class="auth-header">
     <div class="auth-title-container">
       <img routerLink="/" src="assets/left-arrow.svg" alt="Back" class="chevron-icon" />
@@ -27,7 +27,7 @@
     </button>
   </div>
 
-  <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+  <!-- <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p> -->
 
   <div class="auth-footer-container">
     <p class="auth-terms">
@@ -43,4 +43,3 @@
     </div>
   </div>
 </app-wrapper>
-

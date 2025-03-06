@@ -1,11 +1,9 @@
 @use "sass:color";
 
 /* Variables */
-$primary-color: #2563eb;
-$input-border: #ccc;
-$text-color: #000;
-$background-color: #1e1e1e;
-$border-radius: 8px;
+$primary-color: #D97757;
+$text-color: #fff;
+$error-message: #ef4444;
 
 /* Header */
 .auth-header {
@@ -33,13 +31,13 @@ $border-radius: 8px;
   }
 }
 
-/* Label */
-.auth-label {
+.auth-subtitle {
   color: color.adjust($text-color, $lightness: 20%);
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  display: block;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
 }
+
 
 /* Image Upload */
 .image-upload {
@@ -63,7 +61,7 @@ $border-radius: 8px;
 
 /* Error Message */
 .error-message {
-  color: #ef4444;
+  color: $error-message;
   font-size: 0.875rem;
   text-align: center;
   margin: 0.5rem 0;
@@ -75,6 +73,6 @@ $border-radius: 8px;
 
   p {
     color: color.adjust($text-color, $lightness: 30%);
-    margin: 0.5rem 0 0 0;
+    margin: 1rem 0 0 0;
   }
 }

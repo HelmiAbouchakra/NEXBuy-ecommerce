@@ -33,17 +33,12 @@ export class SocialCallbackGuard implements CanActivate {
       const toastRef = this.toastr.warning(
         'This page is only accessible through social login flows',
         'Redirecting to login page',
-        {
-          timeOut: 3000,
-          progressBar: true,
-        }
       );
 
       setTimeout(() => {
         this.toastr.clear(toastRef.toastId);
         this.router.navigate(['/login']);
-      }, 1500);
-
+      }, 3000);
       return false;
     }
 

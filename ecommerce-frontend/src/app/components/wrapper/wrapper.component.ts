@@ -15,4 +15,6 @@ export class WrapperComponent {
   @Input() fullScreen: boolean = false;
   @Input() hasBackground: boolean = true;
   @Input() transparentBg: boolean = false;
+  @Input() showBrandElements: boolean = false;
+  @Input() showLogo: boolean = true;
 }
