@@ -36,6 +36,7 @@ $border-radius: 10px;
     color: color.adjust($text-color, $lightness: 20%);
     font-size: 1rem;
     font-weight: 500;
+    margin: 1rem 0 1rem 0;
   }
 }
 
@@ -153,17 +154,17 @@ $border-radius: 10px;
   }
 }
 
-.error-message {
-  color: red;
-  font-size: 0.9rem;
-  margin-top: 10px;
-  text-align: center;
-}
+// .error-message {
+//   color: red;
+//   font-size: 0.9rem;
+//   margin-top: 10px;
+//   text-align: center;
+// }
 
 /* Responsive Design */
-@media (max-width: 480px) {
-  .auth-modal {
-    width: 90%;
-    padding: 1.5rem;
-  }
-}
+// @media (max-width: 480px) {
+//   .auth-modal {
+//     width: 90%;
+//     padding: 4rem;
+//   }
+// }

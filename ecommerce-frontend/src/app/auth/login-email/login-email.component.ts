@@ -8,6 +8,7 @@ import { CustomButtonComponent } from '../../components/custom-button/custom-but
 import { CustomInputComponent } from '../../components/custom-input/custom-input.component';
 import { WrapperComponent } from '../../components/wrapper/wrapper.component';
 import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
 
 interface LoginRequest {
   email: string;
@@ -38,12 +39,7 @@ export class LoginEmailComponent implements OnDestroy {
   email: string = '';
   password: string = '';
   isLoading = false;
-  errorMessage = '';
-  emailError = ''; // Field-specific error for email
-  passwordError = ''; // Field-specific error for password
-
   loginSuccess = false;
-  successMessage = '';
   redirectCountdown = 3;
 
   private loginSubscription?: Subscription;
@@ -52,6 +48,7 @@ export class LoginEmailComponent implements OnDestroy {
   constructor(
     public router: Router,
     private authService: AuthService,
+    private toastr: ToastrService
   ) {}
 
   ngOnDestroy(): void {
@@ -59,39 +56,37 @@ export class LoginEmailComponent implements OnDestroy {
     this.countdownSubscription?.unsubscribe();
   }
 
+  // Simple validation for form state (button enabling/disabling)
   isFormValid(): boolean {
     return !!this.email && !!this.password;
   }
 
-  onSubmit(): void {
-    // Clear all errors first
-    this.errorMessage = '';
-    this.emailError = '';
-    this.passwordError = '';
-
-    // Validate fields
+  // Validation with feedback - only called on submit
+  validateFormWithFeedback(): boolean {
     if (!this.email) {
-      this.emailError = 'Email is required';
-      return;
+      this.toastr.error('Email is required', 'Validation Error');
+      return false;
     }
-    
+
     if (!this.validateEmail(this.email)) {
-      this.emailError = 'Please enter a valid email address';
-      return;
+      this.toastr.error('Please enter a valid email address', 'Validation Error');
+      return false;
     }
-    
+
     if (!this.password) {
-      this.passwordError = 'Password is required';
-      return;
+      this.toastr.error('Password is required', 'Validation Error');
+      return false;
     }
-    
-    if (this.password.length < 6) {
-      this.passwordError = 'Password must be at least 6 characters';
+    return true;
+  }
+
+  onSubmit(): void {
+    // Validate with toastr notifications on submit
+    if (!this.validateFormWithFeedback()) {
       return;
     }
 
     this.isLoading = true;
-    this.errorMessage = '';
 
     const loginData: LoginRequest = {
       email: this.email,
@@ -101,37 +96,34 @@ export class LoginEmailComponent implements OnDestroy {
     this.loginSubscription = this.authService.login(loginData).subscribe({
       next: (response) => {
         this.isLoading = false;
-
-        // Show success state instead of immediate redirect
         this.loginSuccess = true;
-        this.successMessage = 'Login successful! Redirecting to dashboard...';
-
-        // Start countdown for redirect
+        this.toastr.success('Login successful! Redirecting to dashboard...');
         this.startRedirectCountdown();
       },
+
       error: (error: ApiError) => {
         this.isLoading = false;
+        
         if (typeof error.error === 'string') {
-          this.errorMessage = error.error;
+          this.toastr.error(error.error, 'Login Failed');
         } else if (error.error?.message) {
-          this.errorMessage = error.error.message;
+          this.toastr.error(error.error.message, 'Login Failed');
         } else if (error.error?.error) {
-          this.errorMessage = error.error.error;
+          this.toastr.error(error.error.error, 'Login Failed');
         } else if (error.message) {
-          this.errorMessage = error.message;
+          this.toastr.error(error.message, 'Login Failed');
         } else if (error.error?.errors) {
-          this.errorMessage = Object.entries(error.error.errors)
-            .map(([key, value]) => `${key}: ${value}`)
-            .join('\n');
+          Object.entries(error.error.errors).forEach(([field, message]) => {
+            this.toastr.error(`${field}: ${message}`, 'Validation Error');
+          });
         } else {
-          this.errorMessage = JSON.stringify(error, null, 2);
+          this.toastr.error('Login failed. Please try again.', 'Error');
         }
       },
     });
   }
 
   startRedirectCountdown(): void {
-    // Clean up existing subscription if any
     this.countdownSubscription?.unsubscribe();
 
     this.countdownSubscription = interval(1000)

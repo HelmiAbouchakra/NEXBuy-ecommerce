@@ -16,8 +16,7 @@ $error-message: #ef4444;
     color: $text-color;
     font-size: 1.5rem;
     font-weight: 600;
-    margin: 0;
-    margin-left: 1rem;
+    margin: 0 0 0 1rem;
   }
 
   .chevron-icon {
@@ -35,7 +34,7 @@ $error-message: #ef4444;
   color: color.adjust($text-color, $lightness: 20%);
   font-size: 1rem;
   font-weight: 500;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 
@@ -53,6 +52,6 @@ $error-message: #ef4444;
 
   p {
     color: color.adjust($text-color, $lightness: 30%);
-    margin: 0.5rem 0 0 0;
+    margin: 1rem 0 0 0;
   }
 }

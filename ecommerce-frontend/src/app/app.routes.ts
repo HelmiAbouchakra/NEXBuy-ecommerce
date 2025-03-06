@@ -14,6 +14,11 @@ export const routes: Routes = [
       import('./auth/login/login.component').then((m) => m.LoginComponent),
   },
   {
+    path: 'test',
+    loadComponent: () =>
+      import('./auth/test/test.component').then((m) => m.ToastTestComponent),
+  },
+  {
     path: 'login-email',
     loadComponent: () =>
       import('./auth/login-email/login-email.component').then(

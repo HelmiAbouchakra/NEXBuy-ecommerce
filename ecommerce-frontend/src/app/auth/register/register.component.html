@@ -5,7 +5,7 @@
       src="assets/left-arrow.svg"
       alt="Back"
       class="chevron-icon"
-      (click)="goBack()"
+      (click)="navigateToLogin()"
     />
     <h2 class="auth-title">Sign Up with Work Email</h2>
   </div>
@@ -71,14 +71,16 @@
       [text]="isLoading ? 'Creating Account...' : 'Create Account'"
       [backgroundColor]="'#C36B4E'"
       [textColor]="'#fff'"
-      [hoverColor]=" name && email && password && password_confirmation ? '#D97757' : '#C36B4E'"
+      [hoverColor]="isFormValid() ? '#D97757' : '#C36B4E'"
       [disabled]="isLoading || !isFormValid()"
+      [loading]="isLoading"
+      [type]="'submit'"
       (buttonClick)="onSubmit()"
     ></app-custom-button>
 
-    <div *ngIf="errorMessage" class="error-message">
+    <!-- <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}
-    </div>
+    </div> -->
 
     <div class="login-link">
       <p>Already have an account?</p>

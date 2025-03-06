@@ -30,17 +30,19 @@
     ></app-custom-input>
 
     <app-custom-button
-      [text]="isLoading ? 'Logging in...' : 'Login'"
-      [backgroundColor]="'#C36B4E'"
-      [textColor]="'#fff'"
-      [hoverColor]="email && password ? '#D97757' : '#C36B4E'"
-      [disabled]="isLoading || !isFormValid()"
-      (buttonClick)="onSubmit()"
-    ></app-custom-button>
+    [text]="isLoading ? 'Logging in...' : 'Login'"
+    [backgroundColor]="'#C36B4E'"
+    [textColor]="'#fff'" 
+    [hoverColor]="isFormValid() ? '#D97757' : '#C36B4E'"
+    [disabled]="isLoading || !isFormValid()"
+    [loading]="isLoading"
+    [type]="'submit'"
+    (buttonClick)="onSubmit()"
+  ></app-custom-button>
 
-    <div *ngIf="errorMessage" class="error-message">
+    <!-- <div *ngIf="errorMessage" class="error-message">
       {{ errorMessage }}
-    </div>
+    </div> -->
 
     <div class="auth-links">
       <p>Don't have an account?</p>
